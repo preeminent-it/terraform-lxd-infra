@@ -34,8 +34,8 @@ resource "vault_approle_auth_backend_role" "infra" {
 }
 
 // Enable infra secrets mount
-resource "vault_mount" "infra" {
+resource "vault_mount" "secrets_infra" {
   description = "Generic infrastructure secrets"
-  path        = "infra"
   type        = "generic"
+  path        = "infra"
 }
