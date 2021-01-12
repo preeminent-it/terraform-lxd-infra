@@ -10,7 +10,7 @@ variable "vault_root_ca" {
   default = {
     type                 = "internal"
     common_name          = "Root CA"
-    ttl                  = "3650d"
+    ttl                  = 315360000 // 10 years
     format               = "pem"
     private_key_format   = "der"
     key_type             = "rsa"
@@ -27,7 +27,7 @@ variable "vault_intermediate_ca" {
   default = {
     type                 = "internal"
     common_name          = "Intermediate CA"
-    ttl                  = "1825d"
+    ttl                  = 157680000 // 5 years
     format               = "pem"
     private_key_format   = "der"
     key_type             = "rsa"
@@ -44,7 +44,7 @@ variable "vault_infra_ca" {
   default = {
     type                 = "internal"
     common_name          = "Infra CA"
-    ttl                  = "730d"
+    ttl                  = 63072000 // 2 years
     format               = "pem"
     private_key_format   = "der"
     key_type             = "rsa"

@@ -28,9 +28,9 @@ No requirements.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | domain\_name | The name of the top level domain | `string` | `"internal"` | no |
-| vault\_infra\_ca | A map containing infra ca parameters | `map(any)` | <pre>{<br>  "common_name": "Infra CA",<br>  "exclude_cn_from_sans": true,<br>  "format": "pem",<br>  "key_bits": 4096,<br>  "key_type": "rsa",<br>  "organization": "Internal Org",<br>  "ou": "Operations",<br>  "private_key_format": "der",<br>  "ttl": "730d",<br>  "type": "internal"<br>}</pre> | no |
-| vault\_intermediate\_ca | A map containing intermedite ca parameters | `map(any)` | <pre>{<br>  "common_name": "Intermediate CA",<br>  "exclude_cn_from_sans": true,<br>  "format": "pem",<br>  "key_bits": 4096,<br>  "key_type": "rsa",<br>  "organization": "Internal Org",<br>  "ou": "Operations",<br>  "private_key_format": "der",<br>  "ttl": "1825d",<br>  "type": "internal"<br>}</pre> | no |
-| vault\_root\_ca | A map containing root ca parameters | `map(any)` | <pre>{<br>  "common_name": "Root CA",<br>  "exclude_cn_from_sans": true,<br>  "format": "pem",<br>  "key_bits": 4096,<br>  "key_type": "rsa",<br>  "organization": "Internal Org",<br>  "ou": "Operations",<br>  "private_key_format": "der",<br>  "ttl": "3650d",<br>  "type": "internal"<br>}</pre> | no |
+| vault\_infra\_ca | A map containing infra ca parameters | `map(any)` | <pre>{<br>  "common_name": "Infra CA",<br>  "exclude_cn_from_sans": true,<br>  "format": "pem",<br>  "key_bits": 4096,<br>  "key_type": "rsa",<br>  "organization": "Internal Org",<br>  "ou": "Operations",<br>  "private_key_format": "der",<br>  "ttl": 63072000,<br>  "type": "internal"<br>}</pre> | no |
+| vault\_intermediate\_ca | A map containing intermedite ca parameters | `map(any)` | <pre>{<br>  "common_name": "Intermediate CA",<br>  "exclude_cn_from_sans": true,<br>  "format": "pem",<br>  "key_bits": 4096,<br>  "key_type": "rsa",<br>  "organization": "Internal Org",<br>  "ou": "Operations",<br>  "private_key_format": "der",<br>  "ttl": 157680000,<br>  "type": "internal"<br>}</pre> | no |
+| vault\_root\_ca | A map containing root ca parameters | `map(any)` | <pre>{<br>  "common_name": "Root CA",<br>  "exclude_cn_from_sans": true,<br>  "format": "pem",<br>  "key_bits": 4096,<br>  "key_type": "rsa",<br>  "organization": "Internal Org",<br>  "ou": "Operations",<br>  "private_key_format": "der",<br>  "ttl": 315360000,<br>  "type": "internal"<br>}</pre> | no |
 
 ## Outputs
 
