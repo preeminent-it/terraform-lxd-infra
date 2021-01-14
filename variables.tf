@@ -4,6 +4,43 @@ variable "domain_name" {
   default     = "internal"
 }
 
+variable "lxd_network" {
+  description = "A map containing lxd network config"
+  type        = map(any)
+  default = {
+    name         = "infra"
+    ipv4_address = "10.150.19.1/24"
+    ipv4_nat     = true
+  }
+}
+
+variable "lxd_profile" {
+  description = "A map containing lxd profile config"
+  type = object({
+    name    = string
+    devices = map(any)
+  })
+  default = {
+    name = "infra"
+    devices = {
+      nic = {
+        name = "eno1"
+        properties = {
+          nictype = "bridged"
+          parent  = "infra"
+        }
+      }
+      disk = {
+        name = "root"
+        properties = {
+          pool = "local"
+          path = "/"
+        }
+      }
+    }
+  }
+}
+
 variable "vault_root_ca" {
   description = "A map containing root ca parameters"
   type        = map(any)
@@ -54,4 +91,3 @@ variable "vault_infra_ca" {
     organization         = "Internal Org"
   }
 }
-
