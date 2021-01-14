@@ -19,3 +19,9 @@ resource "lxd_profile" "main" {
     }
   }
 }
+
+resource "lxd_storage_pool" "main" {
+  name   = var.lxd_storage.name
+  driver = var.lxd_storage.driver
+  config = var.lxd_storage.config
+}

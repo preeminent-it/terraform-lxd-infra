@@ -41,6 +41,22 @@ variable "lxd_profile" {
   }
 }
 
+variable "lxd_storage" {
+  description = "A map containing lxd storage config"
+  type = object({
+    name   = string
+    driver = string
+    config = map(any)
+  })
+  default = {
+    name   = "infra"
+    driver = "zfs"
+    config = {
+      "zfs.pool_name" = "zfs0"
+    }
+  }
+}
+
 variable "vault_root_ca" {
   description = "A map containing root ca parameters"
   type        = map(any)
