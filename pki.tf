@@ -5,6 +5,7 @@ resource "vault_mount" "pki_root_ca" {
   path                      = "pki-root-ca"
   default_lease_ttl_seconds = 3600
   max_lease_ttl_seconds     = 86400
+  depends_on                = [lxd_container.vault]
 }
 
 resource "vault_pki_secret_backend_root_cert" "root" {

@@ -11,4 +11,6 @@ provider "lxd" {
   accept_remote_certificate    = true
 }
 
-provider "vault" {}
+provider "vault" {
+  address = "https://${lxd_container.vault.ipv4_address}:8200"
+}

@@ -1,6 +1,22 @@
+// Create the Vault Container
+resource "lxd_container" "vault" {
+  name      = "vault"
+  remote    = "wopr"
+  image     = "vault-ubuntu-focal"
+  profiles  = ["infra"]
+  ephemeral = false
+
+  config = {
+    "boot.autostart" = true
+  }
+
+  depends_on = [lxd_network.main, lxd_profile.main, lxd_storage_pool.main]
+}
+
 // Enable approle backend
 resource "vault_auth_backend" "approle" {
-  type = "approle"
+  type       = "approle"
+  depends_on = [lxd_container.vault]
 }
 
 // Create infra policy
@@ -23,14 +39,16 @@ data "vault_policy_document" "infra" {
 }
 
 resource "vault_policy" "infra" {
-  name   = "infra"
-  policy = data.vault_policy_document.infra.hcl
+  name       = "infra"
+  policy     = data.vault_policy_document.infra.hcl
+  depends_on = [lxd_container.vault]
 }
 
 resource "vault_approle_auth_backend_role" "infra" {
   backend        = vault_auth_backend.approle.path
   role_name      = "infra"
   token_policies = ["default", "infra"]
+  depends_on     = [lxd_container.vault]
 }
 
 // Enable infra secrets mount
@@ -38,4 +56,6 @@ resource "vault_mount" "secrets_infra" {
   description = "Generic infrastructure secrets"
   type        = "generic"
   path        = "infra"
+  depends_on  = [lxd_container.vault]
+
 }
