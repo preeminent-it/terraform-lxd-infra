@@ -33,7 +33,7 @@ variable "lxd_profile" {
       disk = {
         name = "root"
         properties = {
-          pool = "local"
+          pool = "infra"
           path = "/"
         }
       }
@@ -50,9 +50,8 @@ variable "lxd_storage" {
   })
   default = {
     name   = "infra"
-    driver = "zfs"
+    driver = "dir"
     config = {
-      "zfs.pool_name" = "zfs0"
     }
   }
 }
