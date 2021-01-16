@@ -18,7 +18,7 @@ resource "lxd_container" "consul" {
 
   config = {
     "boot.autostart"             = true
-    "environment.VAULT_PKI_PATH" = vault_mount.infra.path
+    "environment.VAULT_PKI_PATH" = vault_mount.pki_infra.path
     "environment.VAULT_PKI_ROLE" = vault_pki_secret_backend_role.infra.name
     "environment.VAULT_PKI_SANS" = "localhost, consul.service.dc1.consul"
   }
