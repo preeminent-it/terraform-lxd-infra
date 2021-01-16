@@ -1,7 +1,6 @@
 // Create the Vault Container
 resource "lxd_container" "vault" {
   name      = "vault"
-  remote    = "wopr"
   image     = "vault-ubuntu-focal"
   profiles  = ["infra"]
   ephemeral = false
