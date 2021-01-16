@@ -1,7 +1,7 @@
 variable "domain_name" {
   description = "The name of the top level domain"
   type        = string
-  default     = "internal"
+  default     = "lxd"
 }
 
 variable "lxd_network" {
