@@ -9,7 +9,7 @@ resource "vault_generic_secret" "example" {
   data_json = "{ \"encrypt_key\": \"${random_id.consul_encrypt_key.b64_std}\" }"
 }
 
-// Create the Vault Container
+// Create the Consul Container
 resource "lxd_container" "consul" {
   name      = "consul"
   image     = "consul-ubuntu-focal"
@@ -17,7 +17,10 @@ resource "lxd_container" "consul" {
   ephemeral = false
 
   config = {
-    "boot.autostart" = true
+    "boot.autostart"             = true
+    "environment.VAULT_PKI_PATH" = vault_mount.infra.path
+    "environment.VAULT_PKI_ROLE" = vault_pki_secret_backend_role.infra.name
+    "environment.VAULT_PKI_SANS" = "localhost, consul.service.dc1.consul"
   }
 
   depends_on = [lxd_network.main, lxd_profile.main, lxd_storage_pool.main]
