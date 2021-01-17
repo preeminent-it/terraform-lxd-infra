@@ -10,8 +10,8 @@ resource "vault_generic_secret" "example" {
 }
 
 data "template_cloudinit_config" "consul" {
-  gzip          = true
-  base64_encode = true
+  gzip          = false
+  base64_encode = false
 
   part {
     content_type = "text/cloud-config"
