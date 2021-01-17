@@ -9,6 +9,22 @@ resource "vault_generic_secret" "example" {
   data_json = "{ \"encrypt_key\": \"${random_id.consul_encrypt_key.b64_std}\" }"
 }
 
+data "template_cloudinit_config" "consul" {
+  gzip          = true
+  base64_encode = true
+
+  part {
+    content_type = "text/cloud-config"
+    merge_type   = "dict(recurse_array)+list(append)"
+
+    content = templatefile("templates/consul/cloudinit.tmpl", {
+      vault_pki_path = vault_mount.pki_infra.path
+      vault_pki_role = vault_pki_secret_backend_role.infra.name
+      vault_pki_sans = "localhost, consul.service.dc1.consul"
+    })
+  }
+}
+
 // Create the Consul Container
 resource "lxd_container" "consul" {
   name      = "consul"
@@ -17,10 +33,8 @@ resource "lxd_container" "consul" {
   ephemeral = false
 
   config = {
-    "boot.autostart"             = true
-    "environment.VAULT_PKI_PATH" = vault_mount.pki_infra.path
-    "environment.VAULT_PKI_ROLE" = vault_pki_secret_backend_role.infra.name
-    "environment.VAULT_PKI_SANS" = "localhost, consul.service.dc1.consul"
+    "boot.autostart" = true
+    "user.user-data" = data.template_cloudinit_config.consul.rendered
   }
 
   depends_on = [lxd_network.main, lxd_profile.main, lxd_storage_pool.main]
