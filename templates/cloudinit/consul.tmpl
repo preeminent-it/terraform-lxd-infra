@@ -1,0 +1,4 @@
+#cloud-config
+
+runcmd:
+  - '/usr/local/bin/consul-template -config=/etc/consul-template/config.hcl -template "/etc/consul-template/templates/vault_key.ctmpl:/etc/consul/tls/server.key" -template "/etc/consul-template/templates/vault_certificate.ctmpl:/etc/consul/tls/server.crt"'

@@ -16,11 +16,18 @@ data "template_cloudinit_config" "consul" {
   part {
     content_type = "text/cloud-config"
     merge_type   = "dict(recurse_array)+list(append)"
-
-    content = templatefile("templates/consul/cloudinit.tmpl", {
+    content = templatefile("templates/cloudinit/base.tmpl", {
+      hostname       = "consul"
       vault_pki_path = vault_mount.pki_infra.path
       vault_pki_role = vault_pki_secret_backend_role.infra.name
       vault_pki_sans = "localhost, consul.service.dc1.consul"
+    })
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    merge_type   = "dict(recurse_array)+list(append)"
+    content = templatefile("templates/cloudinit/consul.tmpl", {
     })
   }
 }

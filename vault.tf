@@ -12,6 +12,15 @@ resource "lxd_container" "vault" {
   depends_on = [lxd_network.main, lxd_profile.main, lxd_storage_pool.main]
 }
 
+// Enable infra secrets mount
+resource "vault_mount" "secrets_infra" {
+  description = "Generic infrastructure secrets"
+  type        = "generic"
+  path        = "infra"
+  depends_on  = [lxd_container.vault]
+
+}
+
 // Enable approle backend
 resource "vault_auth_backend" "approle" {
   type       = "approle"
@@ -22,17 +31,17 @@ resource "vault_auth_backend" "approle" {
 data "vault_policy_document" "infra" {
   rule {
     description  = "Infra policy to allow read on pki-intermediate-ca"
-    path         = "secret/pki-intermediate-ca/cert/ca"
+    path         = "${vault_mount.pki_intermediate.path}/cert/ca"
     capabilities = ["read"]
   }
   rule {
     description  = "Infra policy to allow certificate creation"
-    path         = "secret/pki-infra/issue/*"
+    path         = "${vault_mount.pki_infra.path}/issue/*"
     capabilities = ["read", "update"]
   }
   rule {
     description  = "Infra policy to allow all capabilities on secrets/infra"
-    path         = "secret/infra/*"
+    path         = "${vault_mount.secrets_infra.path}/*"
     capabilities = ["create", "read", "update", "delete", "list"]
   }
 }
@@ -48,13 +57,4 @@ resource "vault_approle_auth_backend_role" "infra" {
   role_name      = "infra"
   token_policies = ["default", "infra"]
   depends_on     = [lxd_container.vault]
-}
-
-// Enable infra secrets mount
-resource "vault_mount" "secrets_infra" {
-  description = "Generic infrastructure secrets"
-  type        = "generic"
-  path        = "infra"
-  depends_on  = [lxd_container.vault]
-
 }
