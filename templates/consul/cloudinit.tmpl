@@ -1,7 +1,7 @@
 #cloud-config
 
 runcmd:
-  - 'export VAULT_PKI_PATH=${vault_pki_path} VAULT_PKI_ROLE=${vault_pki_role} VAULT_PKI_SANS=${vault_pki_sans}'
+  - 'export VAULT_PKI_PATH="${vault_pki_path}" VAULT_PKI_ROLE="${vault_pki_role}" VAULT_PKI_SANS="${vault_pki_sans}"'
   - '/usr/local/bin/consul-template -config=/etc/consul-template/config.hcl -template "/etc/consul-template/templates/vault_key.ctmpl:/etc/consul/tls/cli.key" -template "/etc/consul-template/templates/vault_certificate.ctmpl:/etc/consul/tls/cli.crt"'
   - '/usr/local/bin/consul-template -config=/etc/consul-template/config.hcl -template "/etc/consul-template/templates/vault_key.ctmpl:/etc/consul/tls/cli.key" -template "/etc/consul-template/templates/vault_certificate.ctmpl:/etc/consul/tls/cli.crt"'
   - '/usr/local/bin/consul-template -config=/etc/consul-template/config.hcl -template "/etc/consul-template/templates/vault_key.ctmpl:/etc/consul/tls/server.key" -template "/etc/consul-template/templates/vault_certificate.ctmpl:/etc/consul/tls/server.crt"'
