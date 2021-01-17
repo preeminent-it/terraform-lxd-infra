@@ -149,4 +149,7 @@ resource "vault_pki_secret_backend_role" "infra" {
   allow_ip_sans     = false
   server_flag       = true
   client_flag       = true
+  key_usage         = ["DigitalSignature", "KeyAgreement", "KeyEncipherment"]
+  ttl               = 31536000
+  max_ttl           = 31536000
 }
