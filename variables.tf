@@ -41,6 +41,19 @@ variable "lxd_profile" {
   }
 }
 
+variable "lxd_remote" {
+  description = "A map containing lxd remotes"
+  type        = map(any)
+  default = {
+    infra = {
+      scheme   = "https"
+      address  = "localhost"
+      password = ""
+      default  = true
+    }
+  }
+}
+
 variable "lxd_storage" {
   description = "A map containing lxd storage config"
   type = object({
@@ -53,6 +66,19 @@ variable "lxd_storage" {
     driver = "dir"
     config = {
     }
+  }
+}
+
+variable "server_count" {
+  description = "Default server counts"
+  type        = map(any)
+  default = {
+    consul     = 3
+    grafana    = 1
+    jenkins    = 1
+    loki       = 1
+    prometheus = 1
+    vault      = 1
   }
 }
 

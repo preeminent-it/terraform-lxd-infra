@@ -14,7 +14,7 @@ export VAULT_TOKEN=<vault_token>
 
 ## Bootstrap Vault
 ```bash
-terraform apply -target=lxd_network.main -target=lxd_profile.main -target=lxd_storage_pool.main -target=lxd_container.vault
+terraform apply -target=lxd_network.main -target=lxd_network.cluster -target=lxd_profile.main -target=lxd_storage_pool.main -target=lxd_storage_pool.cluster -target=lxd_container.vault
 ```
 
 Once the Vault container has been provisioned it will need to be unsealed, refer to the [docs](https://www.vaultproject.io/docs/concepts/seal) if you are unfamiliar with the process.

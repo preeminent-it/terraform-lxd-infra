@@ -1,10 +1,18 @@
 resource "lxd_network" "main" {
+  for_each = var.lxd_remote
+  target   = each.key
+  name     = var.lxd_network.name
+}
+
+resource "lxd_network" "cluster" {
   name = var.lxd_network.name
 
   config = {
     "ipv4.address" = var.lxd_network.ipv4_address
     "ipv4.nat"     = var.lxd_network.ipv4_nat
   }
+
+  depends_on = [lxd_network.main]
 }
 
 resource "lxd_profile" "main" {
@@ -21,7 +29,15 @@ resource "lxd_profile" "main" {
 }
 
 resource "lxd_storage_pool" "main" {
-  name   = var.lxd_storage.name
-  driver = var.lxd_storage.driver
-  config = var.lxd_storage.config
+  for_each = var.lxd_remote
+  target   = each.key
+  name     = var.lxd_storage.name
+  driver   = var.lxd_storage.driver
+  config   = var.lxd_storage.config
+}
+
+resource "lxd_storage_pool" "cluster" {
+  name       = var.lxd_storage.name
+  driver     = var.lxd_storage.driver
+  depends_on = [lxd_storage_pool.main]
 }

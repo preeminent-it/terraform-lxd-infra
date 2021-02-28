@@ -1,6 +1,7 @@
 // Create the Vault Container
 resource "lxd_container" "vault" {
-  name      = "vault"
+  for_each  = toset(formatlist("vault%s", range(1, 1 + var.server_count.vault)))
+  name      = each.value
   image     = "vault-ubuntu-focal"
   profiles  = ["infra"]
   ephemeral = false

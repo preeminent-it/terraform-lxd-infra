@@ -34,7 +34,8 @@ data "template_cloudinit_config" "consul" {
 
 // Create the Consul Container
 resource "lxd_container" "consul" {
-  name      = "consul"
+  for_each  = toset(formatlist("consul%s", range(1, 1 + var.server_count.consul)))
+  name      = each.value
   image     = "consul-ubuntu-focal"
   profiles  = ["infra"]
   ephemeral = false
